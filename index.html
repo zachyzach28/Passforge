@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PassForge — Password Security Toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="page">
+
+  <!-- ── HEADER ───────────────────────────────── -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-icon">🔑</div>
+      <div>
+        <div class="brand-name">PassForge</div>
+        <div class="brand-sub">Password Security Toolkit</div>
+      </div>
+    </div>
+    <button class="theme-btn" id="theme-btn" title="Toggle light / dark mode">🌙</button>
+  </header>
+
+  <!-- ── NAV ──────────────────────────────────── -->
+  <nav class="nav">
+    <button class="tab-btn active" data-panel="generator">⚡ Generator</button>
+    <button class="tab-btn" data-panel="checker">🔍 Checker</button>
+    <button class="tab-btn" data-panel="learn">📚 Learn</button>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       PANEL · GENERATOR
+  ══════════════════════════════════════════ -->
+  <div class="panel active" id="panel-generator">
+
+    <!-- Output card -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Generated Password</div>
+      </div>
+
+      <div class="pw-wrap">
+        <div class="pw-display" id="pw-output">Click generate to create a password</div>
+        <button class="copy-btn" id="copy-btn" data-tip="Copy to clipboard">⎘</button>
+      </div>
+
+      <div class="strength-row" id="strength-row">
+        <div class="strength-track">
+          <div class="strength-fill" id="strength-fill"></div>
+        </div>
+        <div class="strength-badge str-0" id="strength-badge">—</div>
+      </div>
+
+      <div class="type-tabs">
+        <button class="type-tab active" data-type="random" data-tip="Random characters">Random</button>
+        <button class="type-tab" data-type="pin" data-tip="Numeric PIN">PIN</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="gen-btn">Generate Password</button>
+        <button class="btn btn-ghost" id="regen-btn" data-tip="Regenerate">↻</button>
+      </div>
+    </div>
+
+    <!-- Options card -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Options</div>
+      </div>
+
+      <div class="slider-block">
+        <div class="field-label">
+          <span>Password Length</span>
+          <span class="field-val" id="len-val">16</span>
+        </div>
+        <input type="range" id="len-slider" min="8" max="32" value="16" />
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="toggles-grid">
+        <div class="toggle-row" id="tog-numbers" data-tip="Add digits 0–9">
+          <span class="toggle-text">Include Numbers</span>
+          <div class="toggle on" id="tog-numbers-knob"></div>
+        </div>
+        <div class="toggle-row" id="tog-symbols" data-tip="Add !@#$% etc.">
+          <span class="toggle-text">Include Symbols</span>
+          <div class="toggle on" id="tog-symbols-knob"></div>
+        </div>
+        <div class="toggle-row" id="tog-mixed" data-tip="Upper & lowercase">
+          <span class="toggle-text">Mixed Case</span>
+          <div class="toggle on" id="tog-mixed-knob"></div>
+        </div>
+        <div class="toggle-row" id="tog-ambiguous" data-tip="Exclude O, 0, l, I, 1">
+          <span class="toggle-text">Exclude Ambiguous</span>
+          <div class="toggle" id="tog-ambiguous-knob"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panel-generator -->
+
+  <!-- ══════════════════════════════════════════
+       PANEL · CHECKER
+  ══════════════════════════════════════════ -->
+  <div class="panel" id="panel-checker">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Analyze Your Password</div>
+      </div>
+
+      <div style="position:relative; margin-bottom:16px;">
+        <input
+          type="password"
+          class="pw-input"
+          id="checker-input"
+          placeholder="Type or paste your password…"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+          style="margin-bottom:0; padding-right:52px;"
+        />
+        <button id="eye-btn" data-tip="Show / hide password"
+          style="position:absolute; right:10px; top:50%; transform:translateY(-50%);
+                 width:34px; height:34px; background:var(--surface); border:1px solid var(--border);
+                 border-radius:var(--radius-sm); color:var(--text-2); font-size:.95rem; cursor:pointer;
+                 display:flex; align-items:center; justify-content:center; transition:var(--trans);
+                 box-shadow:var(--shadow-sm);">
+          👁
+        </button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-val" id="chk-strength-val">—</div>
+          <div class="stat-key">Strength</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="chk-crack-val">—</div>
+          <div class="stat-key">Crack Time</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="chk-entropy-val">—</div>
+          <div class="stat-key">Entropy</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="chk-len-val">—</div>
+          <div class="stat-key">Length</div>
+        </div>
+      </div>
+
+      <div class="strength-row" style="margin-bottom:20px;">
+        <div class="strength-track">
+          <div class="strength-fill" id="chk-fill"></div>
+        </div>
+        <div class="strength-badge str-0" id="chk-badge">—</div>
+      </div>
+
+      <div class="chips-label">Suggestions</div>
+      <div class="chips" id="suggestions-wrap">
+        <span class="chip chip-warn">Enter a password above to analyze it</span>
+      </div>
+    </div>
+  </div><!-- /panel-checker -->
+
+  <!-- ══════════════════════════════════════════
+       PANEL · LEARN
+  ══════════════════════════════════════════ -->
+  <div class="panel" id="panel-learn">
+    <p class="learn-intro">
+      Understanding password security helps protect all your online accounts. Here are the essentials.
+    </p>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-icon">🔐</div>
+        <h3>What Makes a Strong Password?</h3>
+        <p>Length, variety, and randomness. A strong password is 16+ characters and mixes uppercase, lowercase, numbers, and symbols — with no dictionary words or personal information.</p>
+      </div>
+      <div class="edu-card">
+        <div class="edu-icon">📏</div>
+        <h3>Why Length Matters Most</h3>
+        <p>Every added character multiplies the possible combinations exponentially. A 20-character password is astronomically harder to crack than a 12-character one, even if less "complex."</p>
+      </div>
+      <div class="edu-card">
+        <div class="edu-icon">♻️</div>
+        <h3>Never Reuse Passwords</h3>
+        <p>When one site is breached, attackers test those credentials on thousands of others (credential stuffing). One reused password can expose all your accounts at once.</p>
+      </div>
+      <div class="edu-card">
+        <div class="edu-icon">🗄️</div>
+        <h3>Use a Password Manager</h3>
+        <p>You can't memorize 100 unique strong passwords. A manager like Bitwarden or 1Password generates, stores, and auto-fills them securely — you only need to remember one master password.</p>
+      </div>
+      <div class="edu-card">
+        <div class="edu-icon">📱</div>
+        <h3>Enable Two-Factor Auth (2FA)</h3>
+        <p>2FA adds a second step after your password. Even if your password leaks, an attacker can't log in without your phone, hardware key, or biometric.</p>
+      </div>
+      <div class="edu-card">
+        <div class="edu-icon">⚡</div>
+        <h3>How Attackers Crack Passwords</h3>
+        <p>Methods include brute force, dictionary attacks, and credential stuffing. Modern GPUs test billions of hashes per second — short or common passwords fall in seconds.</p>
+      </div>
+    </div>
+  </div><!-- /panel-learn -->
+
+  <footer>
+    <strong>PassForge</strong> — All passwords are generated locally in your browser. No data is ever sent to a server.
+  </footer>
+
+</div><!-- /page -->
+
+<div class="toast" id="toast">✓ Copied to clipboard</div>
+
+<script src="script.js"></script>
+</body>
+</html>
