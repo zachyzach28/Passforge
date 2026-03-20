@@ -285,4 +285,4 @@ $('checker-input').addEventListener('input', function () {
 });
 
 /* ── INIT ───────────────────────────────────── */
-generate();
+// Password is generated only when the user clicks the button
