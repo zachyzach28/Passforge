@@ -190,7 +190,6 @@ $('copy-btn').addEventListener('click', () => {
 });
 
 $('gen-btn').addEventListener('click', generate);
-$('regen-btn').addEventListener('click', generate);
 
 /* ── EYE TOGGLE (CHECKER) ───────────────────── */
 const eyeBtn = $('eye-btn');

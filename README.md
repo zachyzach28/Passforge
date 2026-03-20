@@ -11,7 +11,7 @@ A browser-based password tool I made as a performance task for Computer Systems 
 
 ## How to use
 
-Just open `index.html` in your browser. That's it.
+Make sure all the files (`index.html`, `style.css`, `script.js`) are in the same folder, then open `index.html` in your browser. That's it.
 
 Or visit the live site if it's already hosted on GitHub Pages.
 
