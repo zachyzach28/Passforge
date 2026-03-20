@@ -21,6 +21,7 @@ const state = {
   noAmbig: false,
   type: 'random'
 };
+let hasGenerated = false;
 
 /* ── HELPERS ────────────────────────────────── */
 const $ = id => document.getElementById(id);
@@ -67,7 +68,7 @@ document.querySelectorAll('.type-tab').forEach(tab => {
     ['tog-numbers', 'tog-symbols', 'tog-mixed', 'tog-ambiguous']
       .forEach(id => $(id).classList.toggle('disabled', pin));
     $('strength-row').style.display = pin ? 'none' : 'flex';
-    generate();
+    if (hasGenerated) generate();
   });
 });
 
@@ -81,7 +82,7 @@ document.querySelectorAll('.type-tab').forEach(tab => {
   $(wrapId).addEventListener('click', () => {
     state[key] = !state[key];
     $(knobId).classList.toggle('on', state[key]);
-    generate();
+    if (hasGenerated) generate();
   });
 });
 
@@ -90,7 +91,7 @@ $('len-slider').addEventListener('input', function () {
   state.length = +this.value;
   $('len-val').textContent = state.length;
   this.style.setProperty('--pct', ((state.length - 8) / 24 * 100).toFixed(1) + '%');
-  generate();
+  if (hasGenerated) generate();
 });
 $('len-slider').style.setProperty('--pct', ((16 - 8) / 24 * 100).toFixed(1) + '%');
 
@@ -189,7 +190,7 @@ $('copy-btn').addEventListener('click', () => {
   });
 });
 
-$('gen-btn').addEventListener('click', generate);
+$('gen-btn').addEventListener('click', () => { hasGenerated = true; generate(); });
 
 /* ── EYE TOGGLE (CHECKER) ───────────────────── */
 const eyeBtn = $('eye-btn');
